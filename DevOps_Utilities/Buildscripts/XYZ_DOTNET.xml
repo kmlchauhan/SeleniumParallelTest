@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Run">
+
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)'=='' ">10.0</VisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)'=='' ">Release</Configuration>
+    
+    <!-- Location for build output of the project -->
+    <OutputRoot Condition=" '$(OutputRoot)'=='' ">$(MSBuildThisFileDirectory)..\..\Wills\CWM.Wills</OutputRoot>
+    <CompilationDebug>false</CompilationDebug>
+    <SolutionPath>..\..\Wills\CWM.Wills</SolutionPath>
+    <ApplicationPublishFolder>$(MSBuildThisFileDirectory)..\Deployment\Installable\MZ00_DOTNET</ApplicationPublishFolder>
+  </PropertyGroup>
+
+  <Target Name="Run">
+    <CallTarget Targets="Clean" />
+    <CallTarget Targets="CompileApplication" />
+    <CallTarget Targets="PublishApp" /> 
+  </Target>
+
+
+  <Target Name="Clean">
+    <ItemGroup>
+      <!-- <RemoveDir1 Include="$(MSBuildThisFileDirectory)..\Deployment\Installable" /> -->
+      <RemoveDir1 Include="$(MSBuildThisFileDirectory)..\Deployment\Installable\MZ00_DOTNET" /> 
+    </ItemGroup>
+    <RemoveDir Directories="@(RemoveDir1)" ContinueOnError="true" />
+  </Target>
+
+ 
+   
+  <Target Name="CompileApplication">
+    <MSBuild Projects="$(SolutionPath)\Wills.sln" Properties="Configuration=Release;DebugType=None;" Targets="Clean;Rebuild" />
+  </Target>
+
+
+ <Target Name="PublishApp">
+    <MSBuild Projects="@(ProjectsToBuild)" Properties="Configuration=Release;DebugType=None;" Targets="Clean;Rebuild" />
+  </Target> 
+  
+   
+
+  <ItemGroup>
+    <ProjectsToBuild Include="$(MSBuildThisFileDirectory)..\..\Wills\CWM.Wills\Wills.sln">
+      <AdditionalProperties>
+        VisualStudioVersion=$(VisualStudioVersion);
+        Configuration=$(Configuration);
+        OutputPath=$(OutputRoot);
+        WebPublishMethod=FileSystem;
+        publishUrl=$(ApplicationPublishFolder);
+        DeployOnBuild=false;
+        DeployTarget=WebPublish;
+      </AdditionalProperties>
+    </ProjectsToBuild>
+  </ItemGroup>
+</Project>

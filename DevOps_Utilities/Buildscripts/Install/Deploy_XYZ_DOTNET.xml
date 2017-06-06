@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CMSWebDeployment>
+
+    <AppPoolIdentityCredentials>
+        <Domain>@AppPoolIdentity_Domain@</Domain>
+        <Username>@AppPoolIdentity_UserName@</Username>
+        <Password>@AppPoolIdentity_Password@</Password>
+    </AppPoolIdentityCredentials>
+ 
+	<!--
+ 	 # Step 4. Load Services details at runtime : 1. New - Create AppPool then Deploy service; 
+	 #                                            2. Existing - Deploy Service only 
+	 -->
+	
+	<!-- To reset the IIS  based on option "Yes" or "No" -->
+	<IISRESET>no</IISRESET>
+	
+    <ServiceToInstall>
+         <Service>
+			<Name>WillsDevOps</Name>
+			<Apppool>MZ00DevOps</Apppool>
+		    <ReqWebSite>PMAGDevOps</ReqWebSite>
+			<PipelineMode>Integrated</PipelineMode>
+            <Status>New</Status>
+			<Deploy>Yes</Deploy>
+			<SourceProjectName>Wills-DotNet</SourceProjectName>
+			<TargetProjectName>WillsDevOps</TargetProjectName>
+			<PhysicalDirectoryPath>F:\tierPresentation1</PhysicalDirectoryPath>
+         </Service> 
+    </ServiceToInstall>
+ </CMSWebDeployment>
